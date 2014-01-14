@@ -32,16 +32,14 @@ int main(int argc, const char** argv)
 	//init_gaze_smoothing();
 
     //setup video capture device
-    // VideoCapture cap("C:\\Users\\Erroll\\Documents\\Part 3 Project (local)\\Gaze Data\\P01\\P01_L2_D1_20130517_133459.mp4");
+    VideoCapture cap("videos\\sample_video.mp4");
 	// VideoCapture cap("C:\\Users\\Erroll\\Documents\\Part 3 Project (local)\\Gaze Data\\P03\\P03_L1_D1_20130517_163141.mp4");
 	// VideoCapture cap("C:\\Users\\Erroll\\Documents\\Part 3 Project (local)\\Gaze Data\\P06\\P06_L1_D1_20130520_154535.mp4");
 
 	int cam_idx = argc > 1 ? atoi(argv[1]) : 0;
-	VideoCapture cap(cam_idx);
+	//VideoCapture cap(CV_CAP_DSHOW + 0);
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 	cap.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
-
-	bool rot_180 = argc > 2 ? true : false;
  
     //setup image files used in the capture process
     Mat captureFrame, grayscaleFrame, smallFrame;
@@ -61,8 +59,8 @@ int main(int argc, const char** argv)
 		// captureFrame = imread("images\\SS_0.jpg", CV_LOAD_IMAGE_COLOR);
 		// flip(captureFrame,captureFrame,1);
 
-		if (rot_180)
-			flip(captureFrame, captureFrame, -1);
+		//if (rot_180)
+		flip(captureFrame, captureFrame, -1);
  
         //convert captured image to gray scale and equalize
         cvtColor(captureFrame, grayscaleFrame, CV_BGR2GRAY);
