@@ -59,9 +59,10 @@ int main(int argc, const char** argv)
 		putText(captureFrame, fps_string, Point2i(11, 21), FONT_HERSHEY_SIMPLEX, 0.5, BLACK);
 		putText(captureFrame, fps_string, Point2i(10, 20), FONT_HERSHEY_SIMPLEX, 0.5, WHITE);
 
-		// Show the output
+		// show the output
         imshow("output", captureFrame);
 
+		// check input for taking screenshots or quitting
 		switch (waitKey(1)){
 			case 's':
 				screenshot_filename = "SS_" + to_string(num_screenshots++);

@@ -7,13 +7,15 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
+#include <time.h>
 
 #include "ConicSection.h"
 #include "utils.h"
 
 using namespace std;
 
+// adapted from https://bitbucket.org/Leszek/pupil-tracker/ - Lech Swirski
+// robustly fit ellipse to potential limbus points with RANSAC
 cv::RotatedRect fit_ellipse(std::vector<cv::Point2f> edgePoints, cv::Mat_<float> mPupilSobelX, cv::Mat_<float> mPupilSobelY){
 
     // Number of points needed for a model

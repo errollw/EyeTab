@@ -42,8 +42,6 @@ vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse){
 	double psi = CV_PI / 180.0 * (ellipse.angle+90);    // z-axis rotation (radians)
     double tht_1 = acos(min_axis_px / maj_axis_px);     // y-axis rotation (radians)
 	double tht_2 = -tht_1;                              // as acos has 2 ambiguous solutions
-    
-	cout << "ANGLE " << ellipse.angle << endl;
 
 	//Vector3d limb_normal = Vector3d(limbus_center) * -1;
 	//limb_normal.normalize();
@@ -64,21 +62,19 @@ vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse){
 	limb_normal = rot1 * limb_normal;
 	limb_normal = rot2 * limb_normal;
 
-	cout << "LIMBUS CENTER " << limbus_center.x() << " " << limbus_center.y() << " " << limbus_center.z() << endl;
-	cout << "LIMBUS NORMAL " << limb_normal.x() << " " << limb_normal.y() << " " << limb_normal.z() << endl;
-
 	limbus_to_return.push_back(limbus_center);
 	limbus_to_return.push_back(limb_normal);
 	return limbus_to_return;
 }
 
-// Returns intersection with z-plane of optical axis vector (mm)
+// returns intersection with z-plane of optical axis vector (mm)
 Point2d get_gaze_point_mm(Vector3d limb_center, Vector3d limb_normal){
     
     // ray/plane intersection
     double t = -limb_center.z() / limb_normal.z();
     return Point2d(limb_center.x() + limb_normal.x() * t, limb_center.y() + limb_normal.y() * t);
 }
+
 
 Point2d get_gaze_pt_mm(RotatedRect& ellipse){
 
@@ -89,8 +85,8 @@ Point2d get_gaze_pt_mm(RotatedRect& ellipse){
 }
 
 const Size SCREEN_SIZE_MM(236, 134);
-const Size SCREEN_SIZE_PX(1920, 1080);	// Screen size in pixels
-const Point2i CAMERA_OFFSET_MM(120, 140);	// Vector from camera to top left of screen
+const Size SCREEN_SIZE_PX(1920, 1080);		// screen size in pixels
+const Point2i CAMERA_OFFSET_MM(120, 140);	// vector from top left of screen to camera
 
 Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm){
 
@@ -100,11 +96,11 @@ Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm){
     return Point2i(gp_px_x, gp_px_y);
 }
 
-// Draws the gaze-point on-screen
+
 float scale = 720 / float(SCREEN_SIZE_PX.height);
 
+// Draws the gaze-point on-screen
 void show_gaze(Mat& img, vector<Point2i> gaze_pt_px_s, vector<Scalar> colors){
-	//resizeWindow("Gaze Output", SCREEN_SIZE_PX.width, SCREEN_SIZE_PX.height);
 
 	Mat screen(SCREEN_SIZE_PX.height, SCREEN_SIZE_PX.width, CV_8UC3);
 	screen.setTo(YELLOW);
