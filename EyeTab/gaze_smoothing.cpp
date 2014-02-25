@@ -18,7 +18,7 @@ vector<Point2d> point_history;
 vector<float> weights;
 float weight_sum = 0;
 
-void init_gaze_smoothing(){
+void gaze_smoothing_init(){
 	for (float i = 1; i < SMOOTHING_WINDOW_SIZE; i++){
 		weights.push_back(i);
 		weight_sum += i;

@@ -53,7 +53,7 @@ vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse){
 	//limb_normal = rot1 * limb_normal;
 	//limb_normal = rot2 * limb_normal;
 
-    // Ignore other possible normal - found in practise to be wrong in general
+    // Ignore other possible normal - wrong in general as will point the wrong direction
     Vector3d limb_normal(sin(tht_1) * cos(psi), -sin(tht_1) * sin(psi), -cos(tht_1));
 
 	// Now correct for weak perspective by modifying angle by offset between camera axis and limbus
@@ -88,9 +88,9 @@ Point2d get_gaze_pt_mm(RotatedRect& ellipse){
 	return p;
 }
 
-const Size SCREEN_SIZE_MM(256,144);
+const Size SCREEN_SIZE_MM(236, 134);
 const Size SCREEN_SIZE_PX(1920, 1080);	// Screen size in pixels
-const Point2i CAMERA_OFFSET_MM(128, 155);	// Vector from camera to top left of screen
+const Point2i CAMERA_OFFSET_MM(120, 140);	// Vector from camera to top left of screen
 
 Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm){
 

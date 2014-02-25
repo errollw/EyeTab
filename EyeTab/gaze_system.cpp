@@ -116,7 +116,7 @@ void track_gaze(Mat& frame_bgr, Mat& frame_gray) {
 	Sobel(frame_gray(eye1_roi_ref), grad_y, CV_32F, 0, 1, 5);
 	RotatedRect ellipse1 = fit_ellipse(poss_limb_pts_1, grad_x, grad_y);
 
-	// Shift ellipses fit
+	// Shift ellipses fit by their ROI offset
 	ellipse0 = RotatedRect(Point2i(ellipse0.center) + eye0_roi_ref.tl(), ellipse0.size, ellipse0.angle);
 	ellipse1 = RotatedRect(Point2i(ellipse1.center) + eye1_roi_ref.tl(), ellipse1.size, ellipse1.angle);
 
