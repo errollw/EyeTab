@@ -44,8 +44,9 @@ int main(int argc, const char** argv)
     while(cap.isOpened()) {
 		clock_t start = clock();
 
-        // read in a new image frame
+        // read in a new image frame, break at end of file
         cap >> captureFrame;
+		if (captureFrame.empty()) break;
  
         // convert captured image to equalized gray scale
         cvtColor(captureFrame, grayscaleFrame, CV_BGR2GRAY);
