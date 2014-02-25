@@ -92,7 +92,7 @@ void track_gaze(Mat& frame_bgr, Mat& frame_gray) {
 	Rect eye0_roi_ref = roiAround(eye0_roi.tl() + c0, (int) (eye_centre_dist * EYE_PAIR_DIST_ROI_RATIO));
 	Rect eye1_roi_ref = roiAround(eye1_roi.tl() + c1, (int) (eye_centre_dist * EYE_PAIR_DIST_ROI_RATIO));
 
-	// If a ROI lies outside capture frame bounds, break
+	// If a ROI lies outside capture frame bounds, terminate early
 	Rect capFrameRect = Rect(Point(0,0), frame_bgr.size());
 	if (eye0_roi_ref != (capFrameRect & eye0_roi_ref) || eye1_roi_ref != (capFrameRect & eye1_roi_ref))
 		return;
