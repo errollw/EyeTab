@@ -32,7 +32,7 @@ int main(int argc, const char** argv)
 	gaze_smoothing_init();
 
     // start reading in camera frames (720p video)
-    VideoCapture cap("videos\\sample_video.mp4");
+    VideoCapture cap("videos\\sample_video.avi");
  
     // setup image files used in the capture process
     Mat captureFrame, grayscaleFrame, smallFrame;
@@ -40,16 +40,12 @@ int main(int argc, const char** argv)
     // create a window to present the results
     namedWindow("output", 1);
  
-    // main loop
-    while(true)
-    {
+    // main loop, terminates when out of frames
+    while(cap.isOpened()) {
 		clock_t start = clock();
 
         // read in a new image frame
         cap >> captureFrame;
-		// captureFrame = imread("images\\SS_0.jpg", CV_LOAD_IMAGE_COLOR);
-
-		flip(captureFrame, captureFrame, -1);
  
         // convert captured image to equalized gray scale
         cvtColor(captureFrame, grayscaleFrame, CV_BGR2GRAY);
@@ -65,12 +61,12 @@ int main(int argc, const char** argv)
 		// Show the output
         imshow("output", captureFrame);
 
-		switch (waitKey(5)){
-		case 's':
-			screenshot_filename = "SS_" + to_string(num_screenshots++);
-			imwrite(screenshot_filename + ".jpg", captureFrame);
-			break;
-		case 'q': return 0;
+		switch (waitKey(1)){
+			case 's':
+				screenshot_filename = "SS_" + to_string(num_screenshots++);
+				imwrite(screenshot_filename + ".jpg", captureFrame);
+				break;
+			case 'q': return 0;
 		}
     }
  
