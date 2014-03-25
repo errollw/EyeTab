@@ -32,7 +32,7 @@ int main(int argc, const char** argv)
 	gaze_smoothing_init();
 
     // start reading in camera frames (720p video)
-    VideoCapture cap("videos\\sample_video.avi");
+    VideoCapture cap("videos\\sample_video.mp4");
  
     // setup image files used in the capture process
     Mat captureFrame, grayscaleFrame, smallFrame;
@@ -46,6 +46,7 @@ int main(int argc, const char** argv)
 
         // read in a new image frame, break at end of file
         cap >> captureFrame;
+		flip(captureFrame, captureFrame, -1);
 		if (captureFrame.empty()) break;
  
         // convert captured image to equalized gray scale
