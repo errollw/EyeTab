@@ -17,8 +17,6 @@
 *.user
 *.sln.docstates
 
-*.sln
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -199,7 +197,4 @@ $RECYCLE.BIN/
 
 # =========================
 
-stdafx.*
-
 opencv_libs.txt
-targetver.h

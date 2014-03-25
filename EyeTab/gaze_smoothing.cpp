@@ -18,6 +18,7 @@ vector<Point2d> point_history;
 vector<float> weights;
 float weight_sum = 0;
 
+// create and initialize weights and history vectors
 void gaze_smoothing_init(){
 	for (float i = 1; i < SMOOTHING_WINDOW_SIZE; i++){
 		weights.push_back(i);
@@ -26,6 +27,7 @@ void gaze_smoothing_init(){
 	}
 }
 
+// very simple smoothing low-pass filter
 Point2d smooth_gaze(Point2d gaze_point){
 	
 	Point2d point_to_return(0,0);

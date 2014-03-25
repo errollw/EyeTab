@@ -12,4 +12,4 @@ Point2d get_gaze_pt_mm(RotatedRect& ellipse);
 
 Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm);
 
-void show_gaze(Mat& img, vector<Point2i> gaze_pt_px_s, vector<Scalar> colors);
+void show_gaze(Mat& img, vector<Point2i> gaze_pt_raw_s, vector<Scalar> colors_raw, Point2i gaze_pt_smoothed, Scalar color_smoothed);

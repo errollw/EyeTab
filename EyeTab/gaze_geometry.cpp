@@ -24,7 +24,7 @@ const double FOCAL_LEN_Y_PX = 960.154605354;
 const double FOCAL_LEN_Z_PX = (FOCAL_LEN_X_PX + FOCAL_LEN_Y_PX) / 2;
 const cv::Point2d PRIN_POINT(634.799023712, 367.91715841);
 
-vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse){
+vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse, bool limbus_switch=true){
 
 	vector<Vector3d> limbus_to_return;
 
@@ -40,19 +40,12 @@ vector<Vector3d> ellipse_to_limbus(cv::RotatedRect ellipse){
 	Vector3d limbus_center(iris_x_mm, iris_y_mm, iris_z_mm);
 
 	double psi = CV_PI / 180.0 * (ellipse.angle+90);    // z-axis rotation (radians)
-    double tht_1 = acos(min_axis_px / maj_axis_px);     // y-axis rotation (radians)
-	double tht_2 = -tht_1;                              // as acos has 2 ambiguous solutions
+    double tht = acos(min_axis_px / maj_axis_px);       // y-axis rotation (radians)
 
-	//Vector3d limb_normal = Vector3d(limbus_center) * -1;
-	//limb_normal.normalize();
+	if (limbus_switch) tht = -tht;                      // ambiguous acos, so sometimes switch limbus
 
-	//AngleAxisd rot1(psi, Vector3d(0,0,1));
-	//AngleAxisd rot2(-tht_1, Vector3d(0,1,0));
-	//limb_normal = rot1 * limb_normal;
-	//limb_normal = rot2 * limb_normal;
-
-    // Ignore other possible normal - wrong in general as will point the wrong direction
-    Vector3d limb_normal(sin(tht_1) * cos(psi), -sin(tht_1) * sin(psi), -cos(tht_1));
+    // Get limbus normal for chosen theta
+    Vector3d limb_normal(sin(tht) * cos(psi), -sin(tht) * sin(psi), -cos(tht));
 
 	// Now correct for weak perspective by modifying angle by offset between camera axis and limbus
     double x_correction = -atan2(iris_y_mm, iris_z_mm);
@@ -78,15 +71,27 @@ Point2d get_gaze_point_mm(Vector3d limb_center, Vector3d limb_normal){
 
 Point2d get_gaze_pt_mm(RotatedRect& ellipse){
 
-	vector<Vector3d> limbus = ellipse_to_limbus(ellipse);
-	Point2d p = get_gaze_point_mm(limbus[0], limbus[1]);
+	// get two possible limbus centres and normals because of ambiguous trig
+	vector<Vector3d> limbus_a = ellipse_to_limbus(ellipse, true);
+	vector<Vector3d> limbus_b = ellipse_to_limbus(ellipse, false);
 
-	return p;
+	// calculate gaze points for each possible limbus
+	Point2d gp_mm_a = get_gaze_point_mm(limbus_a[0], limbus_a[1]);
+	Point2d gp_mm_b = get_gaze_point_mm(limbus_b[0], limbus_b[1]);
+
+	// calculate distance from centre of screen for each possible gaze point
+	int dist_a = std::abs(gp_mm_a.x) + std::abs(gp_mm_a.y);
+	int dist_b = std::abs(gp_mm_b.x) + std::abs(gp_mm_b.y);
+
+	// return gaze point closest to screen centre
+	return (dist_a < dist_b) ? gp_mm_a : gp_mm_b;
 }
+
 
 const Size SCREEN_SIZE_MM(236, 134);
 const Size SCREEN_SIZE_PX(1920, 1080);		// screen size in pixels
 const Point2i CAMERA_OFFSET_MM(120, 140);	// vector from top left of screen to camera
+
 
 Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm){
 
@@ -99,12 +104,15 @@ Point2i convert_gaze_pt_mm_to_px(Point2d gaze_pt_mm){
 
 float scale = 720 / float(SCREEN_SIZE_PX.height);
 
-// Draws the gaze-point on-screen
-void show_gaze(Mat& img, vector<Point2i> gaze_pt_px_s, vector<Scalar> colors){
+// draws the gaze-points on-screen as circles and crosses
+void show_gaze(Mat& img, vector<Point2i> gaze_pt_raw_s, vector<Scalar> colors_raw, Point2i gaze_pt_smoothed, Scalar color_smoothed){
 
 	Mat screen(SCREEN_SIZE_PX.height, SCREEN_SIZE_PX.width, CV_8UC3);
 	screen.setTo(YELLOW);
 
-	for (int i=0; i<gaze_pt_px_s.size(); i++)
-		circle(img, gaze_pt_px_s[i] * scale, 20, colors[i], -1);
+	// draw ra
+	for (int i=0; i<gaze_pt_raw_s.size(); i++)
+		circle(img, gaze_pt_raw_s[i] * scale, 10, colors_raw[i], -1);
+
+	circle(img, gaze_pt_smoothed * scale, 20, color_smoothed, -1);
 }

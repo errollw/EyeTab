@@ -120,30 +120,28 @@ void track_gaze(Mat& frame_bgr, Mat& frame_gray) {
 	ellipse0 = RotatedRect(Point2i(ellipse0.center) + eye0_roi_ref.tl(), ellipse0.size, ellipse0.angle);
 	ellipse1 = RotatedRect(Point2i(ellipse1.center) + eye1_roi_ref.tl(), ellipse1.size, ellipse1.angle);
 
-	/*Point2d gaze_pt_mm = (get_gaze_pt_mm(ellipse0) + get_gaze_pt_mm(ellipse1)) * 0.5;
+	// smooth gaze point
+	Point2d gaze_pt_mm = (get_gaze_pt_mm(ellipse0) + get_gaze_pt_mm(ellipse1)) * 0.5;
 	gaze_pt_mm = smooth_gaze(gaze_pt_mm);
 	Point gaze_pt_px = convert_gaze_pt_mm_to_px(gaze_pt_mm);
-	cout << "GAZE PT MM " << gaze_pt_mm.x << " " << gaze_pt_mm.y << endl;
-	cout << "GAZE PT PX " << gaze_pt_px.x << " " << gaze_pt_px.y << endl;*/
 
+	// get raw gaze points also
 	Point2d gaze_pt_mm_0 = get_gaze_pt_mm(ellipse0);
 	Point2d gaze_pt_mm_1 = get_gaze_pt_mm(ellipse1);
 	Point2i gaze_pt_px_0 = convert_gaze_pt_mm_to_px(gaze_pt_mm_0);
 	Point2i gaze_pt_px_1 = convert_gaze_pt_mm_to_px(gaze_pt_mm_1);
 
-	cout << "GAZE PT 1 " << gaze_pt_mm_0 << " " << gaze_pt_px_0 << endl;
-	cout << "GAZE PT 2 " << gaze_pt_mm_1 << " " << gaze_pt_px_1 << endl;
+	// *** DEBUG DRAWING ***
 
+	// draw raw and smoothed gaze points
 	vector<Point2i> gp_px_s;
 	gp_px_s.push_back(gaze_pt_px_0);
 	gp_px_s.push_back(gaze_pt_px_1);
-	vector<Scalar> colors;
-	colors.push_back(RED);
-	colors.push_back(BLUE);
-
-	show_gaze(frame_bgr, gp_px_s, colors);
-
-	// *** DEBUG DRAWING ***
+	gp_px_s.push_back(gaze_pt_px);
+	vector<Scalar> colors_raw;
+	colors_raw.push_back(RED);
+	colors_raw.push_back(BLUE);
+	show_gaze(frame_bgr, gp_px_s, colors_raw, gaze_pt_px, YELLOW);
 
 	// DEBUG DRAWING - coarse ROIs
 	rectangle(frame_bgr, eye0_roi, GREEN);
