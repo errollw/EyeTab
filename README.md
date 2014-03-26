@@ -19,7 +19,7 @@ The system has three main components:
 
 1. We first precisely find regions-of-interest for the eyes in an image.
 2. Then we robustly fit a 2D ellipse to each _limbus_ &ndash; the boundary between iris and sclera.
-3. We finally back-project these to 3D circles, and intersect the circle normals with the screen for a point-of-gaze.
+3. We finally back-project these to 3D circles, and intersect their normals with the screen for a point-of-gaze.
 
 # Deployment instructions
 
@@ -39,3 +39,5 @@ The system has several dependencies:
 * [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) &ndash; provides vector maths
 
 In addition, the SP2 version of the system depends on [VideoInput](// see: http://www.codeproject.com/Articles/559437/Capturing-video-from-web-camera-on-Windows-and) for providing high-resolution access to the front-facing camera. OpenCV's camera API is broken and does not support this. This library `videoInput.lib` is supplied.
+
+__NOTE:__ The VideoInput library only works when targeting 32-bit, but the rest of the system works fine with 64-bit.
