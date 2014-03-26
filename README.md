@@ -2,7 +2,7 @@
 
 _EyeTab_ is a __3D model-based gaze tracker__ that runs entirely on unmodified commodity tablet computers, taking their limited computational resources and low quality cameras into account.
 
-![Image of EyeTab](http://www.cl.cam.ac.uk/research/rainbow/projects/eyetab/images/teaser.jpg "Image of EyeTab")
+![Image of EyeTab](https://raw.githubusercontent.com/errollw/EyeTab/master/EyeTab.jpg "Image of EyeTab")
 
 The code is available in two forms:
 
