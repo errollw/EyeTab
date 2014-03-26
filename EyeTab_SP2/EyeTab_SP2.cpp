@@ -96,7 +96,8 @@ int main(int argc, const char** argv) {
 			putText(captureFrame, fps_string, Point2i(11, 21), FONT_HERSHEY_SIMPLEX, 0.5, BLACK);
 			putText(captureFrame, fps_string, Point2i(10, 20), FONT_HERSHEY_SIMPLEX, 0.5, WHITE);
 
-			// show the output
+			// resize and show the output
+			resize(captureFrame, captureFrame, Size(1920,1080));
 			imshow("output", captureFrame);
         }
  
