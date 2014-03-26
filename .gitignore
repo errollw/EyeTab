@@ -178,7 +178,6 @@ App_Data/*.ldf
 FakesAssemblies/
 
 # VS proj
-*.vcxproj
 *.vcxproj.filters
 
 # =========================
