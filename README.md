@@ -9,6 +9,8 @@ The code is available in two forms:
 * `EyeTab` &ndash; A demonstration version which runs on a supplied example video file.
 * `EyeTab_SP2` &ndash; An interactive version developed for a _Microsoft Surface Pro 2_. This should also work on other devices with small tweaks.
 
+The project's main webpage can be found [here](http://www.cl.cam.ac.uk/research/rainbow/projects/eyetab/).
+
 ## System overview
 
 We track gaze by modelling the iris as a 2D ellipse in an image, and _back-projecting_ this to a 3D circle, getting the real-world position and orientation of the iris. We take the normal vector of this to be the gaze direction.
@@ -26,6 +28,7 @@ A rough guide for setting this code up from scratch:
 1. Open the solution file `EyeTab.sln` in Visual Studio. I used VS2012.
 2. Add dependencies to Visual Studio' _Additional include directories_ field, _Additional library directories_ field, and as _Additional input_ in the linker.
 3. Ensure the required `.dll`s can be found on your `PATH` or in Visual Studio's debugging environment.
+4. Build and run the solution.
 
 ## Dependencies
 
