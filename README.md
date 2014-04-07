@@ -4,12 +4,21 @@ _EyeTab_ is a __3D model-based gaze tracker__ that runs entirely on unmodified c
 
 ![Image of EyeTab](https://raw.githubusercontent.com/errollw/EyeTab/master/EyeTab.jpg "Image of EyeTab")
 
-The code is available in two forms:
+The code is available in three forms:
 
 * `EyeTab` &ndash; A demonstration version which runs on a supplied example video file.
 * `EyeTab_SP2` &ndash; An interactive version developed for a _Microsoft Surface Pro 2_. This should also work on other devices with small tweaks.
+* `EyeTab_Python` &ndash; A previous iteration of the system written in Python. This was developed rapidly as a prototype so is only included for your curiosity, it is not documented or supported.
 
-The project's main webpage can be found [here](http://www.cl.cam.ac.uk/research/rainbow/projects/eyetab/).
+The project's webpage can be found [here](http://www.cl.cam.ac.uk/research/rainbow/projects/eyetab/).
+
+A video of the system in action (Python version) can be seen [here](https://www.youtube.com/watch?v=lPcjQdSzKX4).
+
+### Publication
+
+*Erroll Wood and Andreas Bulling. 2014. EyeTab: model-based gaze estimation on unmodified tablet computers. In Proceedings of the Symposium on Eye Tracking Research and Applications (ETRA '14)* [[available at ACM-DL]](http://dl.acm.org/citation.cfm?id=2578185&CFID=433705372&CFTOKEN=17651040)
+
+If you use or extend EyeTab code in full or in part, please cite the paper above.
 
 ## System overview
 
@@ -27,8 +36,9 @@ A rough guide for setting this code up from scratch:
 
 1. Open the solution file `EyeTab.sln` in Visual Studio. I used VS2012.
 2. Add dependencies to Visual Studio' _Additional include directories_ field, _Additional library directories_ field, and as _Additional input_ in the linker.
-3. Ensure the required `.dll`s can be found on your `PATH` or in Visual Studio's debugging environment.
-4. Build and run the solution.
+3. Include the `EyeTab` header files in the `EyeTab_SP2` project.
+4. Ensure the required `.dll`s can be found on your `PATH` or in Visual Studio's debugging environment.
+5. Build and run the solution.
 
 ## Dependencies
 
